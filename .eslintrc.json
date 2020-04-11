@@ -1,0 +1,19 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": ["standard"],
+  "ignorePatterns": ["dist/", "node_modules/"],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint"],
+  "rules": { "comma-dangle": "off", "semi": "off", "no-useless-constructor": "off", "space-before-function-paren": "off" }
+}

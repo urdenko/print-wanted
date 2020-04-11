@@ -8,5 +8,7 @@ module.exports = {
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
+    library: '@urdenko/print-wanted',
+    libraryTarget: 'commonjs2',
   },
 };
