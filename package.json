@@ -1,0 +1,19 @@
+{
+  "name": "@urdenko/print-wanted",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"It includes my guarantee of quality code.\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/urdenko/print-wanted.git"
+  },
+  "author": "Alex Urdenko",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/urdenko/print-wanted/issues"
+  },
+  "homepage": "https://github.com/urdenko/print-wanted#readme"
+}
