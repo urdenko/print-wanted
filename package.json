@@ -3,7 +3,7 @@
   "version": "1.0.3",
   "description": "Joke about wanted criminal-friend",
   "scripts": {
-    "build": "webpack --mode=development",
+    "build": "webpack --mode=production",
     "prepublishOnly": "npm i && npm test && npm run build && node .scripts/prepublish.js",
     "postpublish": "node .scripts/postpublish.js",
     "test": "echo 'It includes my guarantee of quality code.'"
