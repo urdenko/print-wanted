@@ -1,10 +1,12 @@
 {
   "name": "@urdenko/print-wanted",
   "version": "1.0.1",
-  "description": "",
+  "description": "Joke about wanted criminal-friend",
   "scripts": {
-    "build": "webpack",
-    "test": "echo \"It includes my guarantee of quality code.\""
+    "build": "webpack --mode=development",
+    "prepublishOnly": "npm i && npm test && npm run build && node .scripts/prepublish.js",
+    "postpublish": "node .scripts/postpublish.js",
+    "test": "echo 'It includes my guarantee of quality code.'"
   },
   "repository": {
     "type": "git",
@@ -32,5 +34,8 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "files": [
+    "dist/main.js"
+  ]
 }
