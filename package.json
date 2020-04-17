@@ -1,6 +1,6 @@
 {
   "name": "@urdenko/print-wanted",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Joke about wanted criminal-friend",
   "scripts": {
     "build": "webpack --mode=production",
