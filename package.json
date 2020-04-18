@@ -6,7 +6,8 @@
     "build": "webpack --mode=production",
     "prepublishOnly": "npm i && npm test && npm run build && node .scripts/prepublish.js",
     "postpublish": "node .scripts/postpublish.js",
-    "test": "echo 'It includes my guarantee of quality code.'"
+    "test": "echo 'It includes my guarantee of quality code.'",
+    "start": "webpack-dev-server --open"
   },
   "repository": {
     "type": "git",
@@ -30,7 +31,8 @@
     "eslint-plugin-standard": "^4.0.1",
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
   },
   "publishConfig": {
     "access": "public"
