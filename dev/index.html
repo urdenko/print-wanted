@@ -1,8 +1,83 @@
 <html>
   <head>
     <script type="text/javascript" src="main.js"></script>
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      input,
+      textarea,
+      button {
+        width: 300px;
+      }
+
+      textarea,
+      input,
+      button {
+        margin-bottom: 20px;
+      }
+
+      wanted-print-form {
+        height: 0;
+        overflow: hidden;
+      }
+
+      @media print {
+        input,
+        textarea,
+        button {
+          display: none;
+        }
+
+        wanted-print-form {
+          height: unset;
+        }
+      }
+    </style>
   </head>
   <body>
-    <wanted-print-form></wanted-print-form>
+    <input placeholder="Input name" type="text" id="wanted-name" />
+    <input type="file" accept="image/*" id="wanted-image" />
+    <textarea rows="10" placeholder="Input his atrocity crimes" id="atrocity-crimes"></textarea>
+    <input placeholder="Reward" type="text" id="reward" />
+    <button onclick="printWanted()">Print Wanted!</button>
+
+    <script type="text/javascript">
+      function printWanted() {
+        const name = document.getElementById('wanted-name').value;
+        const images = document.getElementById('wanted-image').files;
+        const atrocityCrimes = document.getElementById('atrocity-crimes').value;
+        const reward = document.getElementById('reward').value;
+
+        const printForm = document.createElement('wanted-print-form');
+        printForm.wantedName = name;
+        printForm.image = images[0];
+        printForm.atrocityCrimes = atrocityCrimes;
+        printForm.reward = reward;
+
+        window.onafterprint = function () {
+          printForm.remove();
+        };
+
+        printForm.addEventListener(printForm.readyEventName, () => {
+          printForm.removeEventListener(printForm.readyEventName, null);
+          printForm.removeEventListener(printForm.errorEventName, null);
+          window.print();
+        });
+
+        printForm.addEventListener(printForm.errorEventName, (event) => {
+          printForm.removeEventListener(printForm.readyEventName, null);
+          printForm.removeEventListener(printForm.errorEventName, null);
+          printForm.remove();
+          console.error('Wanted form error:', event.detail);
+        });
+
+        document.body.appendChild(printForm);
+      }
+    </script>
   </body>
 </html>

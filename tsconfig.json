@@ -5,6 +5,7 @@
     "strict": true,
     "esModuleInterop": true,
     "outDir": "./dist/",
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "types": ["css-font-loading-module"]
   }
 }
