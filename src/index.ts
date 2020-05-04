@@ -45,9 +45,7 @@ export class WantedPrintForm extends HTMLElement {
       const allText: string[] = this.getAllText();
       await FontLoader.loadAllFonts(['Patua One', 'Kalam'], allText);
 
-      if (!this.isValidPaperSize()) {
-        throw new Error('Too match paper size!');
-      }
+      this.makeImageFit();
     } catch (error) {
       const errorEvent = new CustomEvent(this.errorEventName, { detail: error });
       this.dispatchEvent(errorEvent);
@@ -84,9 +82,19 @@ export class WantedPrintForm extends HTMLElement {
     ];
   }
 
-  private isValidPaperSize(): boolean {
+  private makeImageFit(): void {
     const page = this.componentShadowRoot.getElementById('page');
-    return Boolean(page && page.offsetHeight === page.scrollHeight);
+    const image = this.componentShadowRoot.getElementById('face') as HTMLImageElement | null;
+    if (!page || !image) {
+      throw new Error('Unknown paper size, process aborted');
+    }
+
+    const overSize = page.scrollHeight - page.offsetHeight;
+    if (overSize + 200 > image.height) {
+      throw new Error('Too much paper size!');
+    }
+
+    image.style.height = `${image.height - overSize}px`;
   }
 }
 
