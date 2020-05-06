@@ -41,6 +41,9 @@
     "access": "public"
   },
   "files": [
-    "dist/main.js"
+    "dist/main.js",
+    "index.d.ts",
+    "src/form.model.ts",
+    "src/form-events.enum.ts"
   ]
 }

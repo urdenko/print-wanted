@@ -63,15 +63,15 @@
           printForm.remove();
         };
 
-        printForm.addEventListener(printForm.readyEventName, () => {
-          printForm.removeEventListener(printForm.readyEventName, null);
-          printForm.removeEventListener(printForm.errorEventName, null);
+        printForm.addEventListener('form-ready', () => {
+          printForm.removeEventListener('form-ready', null);
+          printForm.removeEventListener('form-error', null);
           window.print();
         });
 
-        printForm.addEventListener(printForm.errorEventName, (event) => {
-          printForm.removeEventListener(printForm.readyEventName, null);
-          printForm.removeEventListener(printForm.errorEventName, null);
+        printForm.addEventListener('form-error', (event) => {
+          printForm.removeEventListener('form-ready', null);
+          printForm.removeEventListener('form-error', null);
           printForm.remove();
           console.error('Wanted form error:', event.detail);
         });

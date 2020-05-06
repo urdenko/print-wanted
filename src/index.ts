@@ -1,10 +1,10 @@
 import html from './index.html';
 import { FontLoader } from './font-loader';
+// eslint-disable-next-line no-unused-vars
+import { PrintWantedForm } from './form.model';
+import { FormEvents } from './form-events.enum';
 
-export class WantedPrintForm extends HTMLElement {
-  public readyEventName = 'form-ready';
-  public errorEventName = 'form-error';
-
+export class WantedPrintForm extends HTMLElement implements PrintWantedForm {
   public wantedName!: string;
   public image!: File;
   public atrocityCrimes!: string;
@@ -47,12 +47,12 @@ export class WantedPrintForm extends HTMLElement {
 
       this.makeImageFit();
     } catch (error) {
-      const errorEvent = new CustomEvent(this.errorEventName, { detail: error });
+      const errorEvent = new CustomEvent(FormEvents.error, { detail: error });
       this.dispatchEvent(errorEvent);
       return;
     }
 
-    const readyEvent = new CustomEvent(this.readyEventName);
+    const readyEvent = new CustomEvent(FormEvents.ready);
     this.dispatchEvent(readyEvent);
   }
 
