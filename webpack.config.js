@@ -1,19 +1,25 @@
 const path = require('path');
 
+const rules = [
+  {
+    test: /\.ts$/,
+    use: 'ts-loader',
+    exclude: /node_modules/,
+  },
+  {
+    test: /\.html$/i,
+    loader: 'html-loader',
+  },
+  {
+    test: /\.css$/i,
+    use: 'raw-loader',
+  },
+];
+
 const prodConfig = {
   entry: './src/index.ts',
   module: {
-    rules: [
-      {
-        test: /\.ts$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.html$/i,
-        loader: 'html-loader',
-      },
-    ],
+    rules,
   },
   resolve: {
     extensions: ['.ts'],
@@ -29,17 +35,7 @@ const prodConfig = {
 const devConfig = {
   entry: './src/index.ts',
   module: {
-    rules: [
-      {
-        test: /\.ts$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.html$/i,
-        loader: 'html-loader',
-      },
-    ],
+    rules,
   },
   resolve: {
     extensions: ['.ts', '.js', '.html'],

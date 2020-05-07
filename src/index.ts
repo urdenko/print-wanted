@@ -1,81 +1,106 @@
 import html from './index.html';
+import style from './index.css';
+import printStyle from './print.css';
 import { FontLoader } from './font-loader';
 // eslint-disable-next-line no-unused-vars
-import { PrintWantedForm } from './form.model';
-import { FormEvents } from './form-events.enum';
+import { PrintWantedForm, WantedData } from './form.model';
 
 export class WantedPrintForm extends HTMLElement implements PrintWantedForm {
-  public wantedName!: string;
-  public image!: File;
-  public atrocityCrimes!: string;
-  public reward!: string;
-
-  private componentShadowRoot!: ShadowRoot;
+  private componentShadowRoot = this.attachShadow({ mode: 'open' });
+  private DOMConnected = false;
 
   constructor() {
     super();
 
-    this.componentShadowRoot = this.attachShadow({ mode: 'open' });
-
     const template = document.createElement('template');
-    template.innerHTML = html;
+    template.innerHTML = `${html}\n<style>${style}</style>`;
     this.componentShadowRoot.appendChild(template.content.cloneNode(true));
   }
 
-  public async connectedCallback(): Promise<void> {
-    try {
-      if (!this.isValidInputs()) {
-        throw new Error('Invalid input values!');
-      }
-
-      const atrocityCrimes = this.componentShadowRoot.getElementById('atrocity-crimes');
-      atrocityCrimes && (atrocityCrimes.innerText = this.atrocityCrimes);
-
-      const imageSrc = URL.createObjectURL(this.image);
-      const face = this.componentShadowRoot.getElementById('face') as HTMLImageElement | null;
-
-      face && (await this.loadImage(imageSrc, face));
-
-      const wantedName = this.componentShadowRoot.getElementById('wanted-name');
-      wantedName && (wantedName.innerText = this.wantedName);
-
-      const reward = this.componentShadowRoot.getElementById('reward');
-      reward && (reward.innerText = this.reward);
-
-      const allText: string[] = this.getAllText();
-      await FontLoader.loadAllFonts(['Patua One', 'Kalam'], allText);
-
-      this.makeImageFit();
-    } catch (error) {
-      const errorEvent = new CustomEvent(FormEvents.error, { detail: error });
-      this.dispatchEvent(errorEvent);
-      return;
+  public async render(wantedData: WantedData): Promise<void> {
+    if (!this.DOMConnected) {
+      throw new Error('You need to insert <wanted-print-form></wanted-print-form> into DOM in first');
     }
 
-    const readyEvent = new CustomEvent(FormEvents.ready);
-    this.dispatchEvent(readyEvent);
+    if (!this.isValidInputs(wantedData)) {
+      throw new Error('Invalid input values!');
+    }
+
+    const atrocityCrimes = this.componentShadowRoot.getElementById('atrocity-crimes');
+    atrocityCrimes && (atrocityCrimes.innerText = wantedData.atrocityCrimes);
+
+    const imageSrc = URL.createObjectURL(wantedData.image);
+    const face = this.componentShadowRoot.getElementById('face') as HTMLImageElement | null;
+
+    face && (await this.loadImage(imageSrc, face));
+
+    const wantedName = this.componentShadowRoot.getElementById('wanted-name');
+    wantedName && (wantedName.innerText = wantedData.wantedName);
+
+    const reward = this.componentShadowRoot.getElementById('reward');
+    reward && (reward.innerText = wantedData.reward);
+
+    const allText: string[] = this.getAllText(wantedData);
+    await FontLoader.loadAllFonts(['Patua One', 'Kalam'], allText);
+
+    this.makeImageFit();
+  }
+
+  public async print(wantedData: WantedData): Promise<void> {
+    await this.render(wantedData);
+
+    const printStyleElement = document.createElement('style');
+    printStyleElement.innerHTML = printStyle;
+    document.body.appendChild(printStyleElement);
+    this.style.display = 'flex';
+
+    window.addEventListener('afterprint', () => {
+      window.removeEventListener('afterprint', () => {});
+      printStyleElement.remove();
+      this.removeAttribute('style');
+    });
+
+    window.print();
+  }
+
+  protected connectedCallback(): void {
+    this.DOMConnected = true;
+  }
+
+  protected disconnectedCallback(): void {
+    this.DOMConnected = false;
   }
 
   private loadImage(src: string, img: HTMLImageElement): Promise<HTMLImageElement> {
     return new Promise((resolve, reject) => {
-      img.addEventListener('load', () => resolve(img));
-      img.addEventListener('error', (err) => reject(err));
+      img.addEventListener('load', () => {
+        img.removeEventListener('load', () => {});
+        img.removeEventListener('error', () => {});
+        resolve(img);
+      });
+
+      img.addEventListener('error', (err) => {
+        img.removeEventListener('load', () => {});
+        img.removeEventListener('error', () => {});
+        reject(err);
+      });
+
       img.src = src;
     });
   }
 
-  private isValidInputs(): boolean {
-    return Boolean(this.atrocityCrimes && this.wantedName && this.image && this.reward);
+  private isValidInputs(wantedData: WantedData): boolean {
+    return Boolean(wantedData.atrocityCrimes && wantedData.wantedName && wantedData.image && wantedData.reward);
   }
 
-  private getAllText(): string[] {
+  private getAllText(wantedData: WantedData): string[] {
     return [
       'WANTED!',
       'For the following atrocity crimes:',
       'Reward from friends:',
-      this.wantedName,
-      this.atrocityCrimes,
-      this.reward,
+      wantedData.wantedName,
+      wantedData.atrocityCrimes,
+      wantedData.reward,
       '😈',
       '⍟',
       'PREFERABLE ALIVE WITH ALL OF LIMBS',

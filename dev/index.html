@@ -20,23 +20,6 @@
       button {
         margin-bottom: 20px;
       }
-
-      wanted-print-form {
-        height: 0;
-        overflow: hidden;
-      }
-
-      @media print {
-        input,
-        textarea,
-        button {
-          display: none;
-        }
-
-        wanted-print-form {
-          height: unset;
-        }
-      }
     </style>
   </head>
   <body>
@@ -46,38 +29,18 @@
     <input placeholder="Reward" type="text" id="reward" />
     <button onclick="printWanted()">Print Wanted!</button>
 
+    <wanted-print-form id="wanted-print-form"></wanted-print-form>
+
     <script type="text/javascript">
-      function printWanted() {
-        const name = document.getElementById('wanted-name').value;
-        const images = document.getElementById('wanted-image').files;
+      var printWanted = () => {
+        const wantedName = document.getElementById('wanted-name').value;
+        const image = document.getElementById('wanted-image').files[0];
         const atrocityCrimes = document.getElementById('atrocity-crimes').value;
         const reward = document.getElementById('reward').value;
 
-        const printForm = document.createElement('wanted-print-form');
-        printForm.wantedName = name;
-        printForm.image = images[0];
-        printForm.atrocityCrimes = atrocityCrimes;
-        printForm.reward = reward;
-
-        window.onafterprint = function () {
-          printForm.remove();
-        };
-
-        printForm.addEventListener('form-ready', () => {
-          printForm.removeEventListener('form-ready', null);
-          printForm.removeEventListener('form-error', null);
-          window.print();
-        });
-
-        printForm.addEventListener('form-error', (event) => {
-          printForm.removeEventListener('form-ready', null);
-          printForm.removeEventListener('form-error', null);
-          printForm.remove();
-          console.error('Wanted form error:', event.detail);
-        });
-
-        document.body.appendChild(printForm);
-      }
+        const printForm = document.getElementById('wanted-print-form');
+        printForm.print({ wantedName, image, atrocityCrimes, reward });
+      };
     </script>
   </body>
 </html>

@@ -1,0 +1,89 @@
+:host {
+  height: 0;
+  overflow: hidden;
+}
+
+@media print {
+  :host {
+    height: unset;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+#page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  page-break-inside: avoid;
+  width: 190mm;
+  height: 260mm;
+  font-family: Kalam;
+  overflow: hidden;
+}
+
+.header {
+  width: 100%;
+  font-family: 'Patua One';
+  font-size: 36pt;
+  text-align: center;
+  font-weight: 800;
+  line-height: 2;
+  border-top: 2pt solid;
+  border-bottom: 2pt solid;
+  margin-top: 15pt;
+}
+
+.star {
+  width: 50pt;
+  line-height: 30pt;
+  background: white;
+  margin: 0 auto;
+  margin-top: -20pt;
+}
+
+.atrocity-crimes {
+  font-size: 18pt;
+  text-align: center;
+  padding: 10pt;
+}
+
+#face {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+}
+
+.wanted-name {
+  display: flex;
+  justify-content: center;
+  font-size: 28pt;
+  padding: 10pt;
+}
+
+#wanted-name {
+  padding: 0 10pt;
+}
+
+.alive {
+  width: 100%;
+  font-family: 'Patua One';
+  font-size: 26pt;
+  font-weight: 600;
+  text-align: center;
+  line-height: 2;
+  border-top: 2pt solid;
+  border-bottom: 2pt solid;
+}
+
+.reward {
+  font-size: 18pt;
+  text-align: center;
+  padding: 10pt;
+}
