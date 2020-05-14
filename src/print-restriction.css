@@ -10,7 +10,7 @@
     overflow: hidden !important;
   }
 
-  *:not(wanted-print-form) {
+  body *:not(wanted-print-form, style, script) {
     z-index: 1 !important;
     opacity: unset !important;
     display: unset !important;
