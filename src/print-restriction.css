@@ -1,0 +1,18 @@
+/* Aggressive restriction of parent visibility in a moment of print */
+@media print {
+  body {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    border: none !important;
+    background: none !important;
+    overflow: hidden !important;
+  }
+
+  *:not(wanted-print-form) {
+    z-index: 1 !important;
+    opacity: unset !important;
+    display: unset !important;
+  }
+}

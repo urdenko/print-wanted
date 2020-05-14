@@ -1,6 +1,6 @@
 import html from './index.html';
 import style from './index.css';
-import printStyle from './print.css';
+import printRestrictionStyle from './print-restriction.css';
 import { FontLoader } from './font-loader';
 // eslint-disable-next-line no-unused-vars
 import { PrintWantedForm, WantedData } from './form.model';
@@ -50,9 +50,9 @@ export class WantedPrintForm extends HTMLElement implements PrintWantedForm {
     await this.render(wantedData);
 
     const printStyleElement = document.createElement('style');
-    printStyleElement.innerHTML = printStyle;
+    printStyleElement.innerHTML = printRestrictionStyle;
     document.body.appendChild(printStyleElement);
-    this.style.display = 'flex';
+    this.style.visibility = 'visible';
 
     window.addEventListener('afterprint', () => {
       window.removeEventListener('afterprint', () => {});

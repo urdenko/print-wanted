@@ -1,19 +1,21 @@
 :host {
   height: 0;
   overflow: hidden;
+  display: flex;
 }
 
 @media print {
   :host {
-    height: unset;
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 2147483647;
+    background-color: white;
+    visibility: hidden; /* appear only when own print event happened */
   }
 }
 
@@ -23,7 +25,9 @@
   align-items: center;
   page-break-inside: avoid;
   width: 190mm;
+  min-width: 190mm;
   height: 260mm;
+  min-height: 260mm;
   font-family: Kalam;
   overflow: hidden;
 }

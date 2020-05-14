@@ -1,6 +1,6 @@
 /** Print Wanted Form structure for external manipulate */
 export interface PrintWantedForm extends HTMLElement {
-  /** Only render Form after which have to print in parent */
+  /** Only render Form after which parent have to start procedure of print itself */
   render(wantedData: WantedData): Promise<void>;
   /** Render and print by using inside logic of Form */
   print(wantedData: WantedData): Promise<void>;

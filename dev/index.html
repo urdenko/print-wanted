@@ -7,6 +7,7 @@
         align-items: center;
         justify-content: center;
         flex-direction: column;
+        height: 100vh;
       }
 
       input,
@@ -20,6 +21,19 @@
       button {
         margin-bottom: 20px;
       }
+
+      .bad-wrapper {
+        width: 0px;
+        height: 0px;
+        overflow: hidden;
+        position: absolute;
+        top: -20000;
+        left: 40000;
+        float: left;
+        display: none;
+        visibility: hidden;
+        opacity: 0;
+      }
     </style>
   </head>
   <body>
@@ -29,7 +43,9 @@
     <input placeholder="Reward" type="text" id="reward" />
     <button onclick="printWanted()">Print Wanted!</button>
 
-    <wanted-print-form id="wanted-print-form"></wanted-print-form>
+    <div class="bad-wrapper">
+      <wanted-print-form id="wanted-print-form"></wanted-print-form>
+    </div>
 
     <script type="text/javascript">
       var printWanted = () => {
