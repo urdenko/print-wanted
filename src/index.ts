@@ -109,6 +109,13 @@ export class WantedPrintForm extends HTMLElement implements PrintWantedForm {
 
   private makeImageFit(): void {
     const page = this.componentShadowRoot.getElementById('page');
+
+    if (!page?.offsetHeight) {
+      throw new Error(
+        'It looks like the <wanted-print-form> element is within hidden container. Check if container has not a rule of style `display: none;`'
+      );
+    }
+
     const image = this.componentShadowRoot.getElementById('face') as HTMLImageElement | null;
     if (!page || !image) {
       throw new Error('Unknown paper size, process aborted');

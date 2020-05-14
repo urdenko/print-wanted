@@ -8,11 +8,15 @@
     border: none !important;
     background: none !important;
     overflow: hidden !important;
+    opacity: unset !important;
+    visibility: unset !important;
+    display: unset !important;
+    position: unset !important;
   }
 
-  body *:not(wanted-print-form, style, script) {
-    z-index: 1 !important;
+  body *:not(wanted-print-form):not(style):not(script) {
     opacity: unset !important;
     display: unset !important;
+    visibility: hidden !important;
   }
 }
