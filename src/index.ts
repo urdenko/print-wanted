@@ -54,13 +54,12 @@ export class WantedPrintForm extends HTMLElement implements PrintWantedForm {
     document.body.appendChild(printStyleElement);
     this.style.visibility = 'visible';
 
-    window.addEventListener('afterprint', () => {
-      window.removeEventListener('afterprint', () => {});
+    window.print();
+
+    this.onUserActivity(() => {
       printStyleElement.remove();
       this.removeAttribute('style');
     });
-
-    window.print();
   }
 
   protected connectedCallback(): void {
@@ -127,6 +126,18 @@ export class WantedPrintForm extends HTMLElement implements PrintWantedForm {
     }
 
     image.style.height = `${image.height - overSize}px`;
+  }
+
+  /** Method calls first argument when a user will become active */
+  private onUserActivity(doCallback: () => void): void {
+    const eventAction = () => {
+      doCallback();
+      window.removeEventListener('mousemove', eventAction);
+      window.removeEventListener('touchstart', eventAction);
+    };
+
+    window.addEventListener('mousemove', eventAction);
+    window.addEventListener('touchstart', eventAction);
   }
 }
 
